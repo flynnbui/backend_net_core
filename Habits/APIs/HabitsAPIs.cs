@@ -8,15 +8,6 @@ namespace backend.Habits.APIs;
 
 public static class HabitsAPIs
 {
-    private static readonly List<HabitsDto> habits = [
-        new (
-            1,
-            "Test name",
-            "Test description",
-            false
-        )
-    ];
-
     //Route Group for HabitsAPIs
     public static RouteGroupBuilder MapHabits(this IEndpointRouteBuilder routes)
     {
