@@ -15,20 +15,18 @@ public static class HabitsAPIs
                     .WithParameterValidation();
                     
         
-        // Create new habit - POST/habits
+        // Create new habit - POST /habits
         group.MapPost("/", async (CreateHabitsDto newHabitDto, HabitsDbContext dbContext, IMapper mapper) =>
         {   
             // Use AutoMapper to map the DTO directly to the entity
             var newHabit = mapper.Map<Habit>(newHabitDto);
+
             
             // Add the new habit to the database
             dbContext.Habits.Add(newHabit);
             await dbContext.SaveChangesAsync();
-            
-            // Use AutoMapper to map the created entity back to a DTO
-            var createdHabitDto = mapper.Map<HabitsDto>(newHabit);
 
-            return Results.Created($"/habits/{createdHabitDto.Id}", createdHabitDto);
+            return Results.Created($"/habits/{newHabit.Id}", newHabit);
         });
 
         // Get all the habits
@@ -67,8 +65,10 @@ public static class HabitsAPIs
                 return Results.NotFound();
             }
 
+            //Delete the habit
             dbContext.Habits.Remove(habit);
             await dbContext.SaveChangesAsync();
+
             return Results.NoContent();
         });
 

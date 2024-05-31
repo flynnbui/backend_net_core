@@ -19,6 +19,7 @@ var app = builder.Build();
 await app.MigrateDbAsync();
 
 // Configure the APIs
+app.MapUsers();
 app.MapHabits();
 
 
