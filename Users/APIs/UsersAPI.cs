@@ -5,31 +5,37 @@ using backend.Data;
 using backend.Users.Dtos;
 using backend.Users.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 //Route Group for UsersAPIs
 public static class UsersApi {
     //Route Group for UserAPIs
     public static RouteGroupBuilder MapUsers(this IEndpointRouteBuilder routes) {
         var group = routes.MapGroup("/users")
-                    .WithParameterValidation();
-        
-        // Create new user - POST /users/register
-        group.MapPost("register", async(CreateUsersDto newUserDto, 
-        HabitsDbContext dbContext,
-        IMapper mapper,
-        IPasswordHasher<User> hasher
-        ) => {
+                    .WithParameterValidation()
+                    .DisableAntiforgery();
+
+        group.MapPost("register", async Task<Results<Ok, ValidationProblem>> ([FromForm] CreateUsersDto newUserDto,
+            UserManager<ApplicationUser> userManager, 
+            IMapper mapper) =>
+        {
+            Console.WriteLine(newUserDto);
+            Console.WriteLine(newUserDto.GetType());
             //Map the DTO to the entity
-            var newUser = mapper.Map<User>(newUserDto);
-            newUser.Password = PasswordHasher(newUser,newUser.Password);
-
-            //Add new user to the database
-            dbContext.Users.Add(newUser);
-            await dbContext.SaveChangesAsync();
-
-            return Results.Created($"/users/{newUser.UserId}", newUser);
+            var newUser = mapper.Map<ApplicationUser>(newUserDto);
+            var result = await userManager.CreateAsync(newUser);
+            if (result.Succeeded)
+            {
+                return TypedResults.Ok();
+            }
+            return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Code, e => new[] { e.Description }));
         });
-        
 
         return group;
     }
 }
+
+
+
+
+

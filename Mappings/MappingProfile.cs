@@ -9,6 +9,6 @@ public class MappingProfile : Profile {
          CreateMap<CreateHabitsDto, Habit>().ReverseMap();
          CreateMap<Habit, HabitsDto>().ReverseMap();
          CreateMap<UpdateHabitDto, Habit>().ReverseMap();
-         CreateMap<CreateUsersDto, User>().ReverseMap();
+         CreateMap<CreateUsersDto, ApplicationUser>().ReverseMap();
      }
  }

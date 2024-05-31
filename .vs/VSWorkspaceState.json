@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Data",
+    "\\Habits",
+    "\\Habits\\APIs",
+    "\\Mappings",
+    "\\Migrations",
+    "\\Users",
+    "\\Users\\APIs",
+    "\\Users\\Dtos",
+    "\\Users\\Entities"
+  ],
+  "PreviewInSolutionExplorer": false
+}

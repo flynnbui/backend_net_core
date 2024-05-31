@@ -6,7 +6,7 @@ public record class CreateUsersDto
 (
   [Required]
   [EmailAddress]
-  string Email,
+  string Username,
 
   [Required]
   [PasswordPropertyText]

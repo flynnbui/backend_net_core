@@ -12,7 +12,7 @@ public class Habit {
     public string Description { get; set; } = default!;
     public bool Status { get; set; }
 
-    public int UserId { get; set; }
+    public string OwnerId { get; set; } = default!;
 
-    public User User { get; set; } = default!;
+    public ApplicationUser ApplicationUser { get; set; } = default!;
 }
